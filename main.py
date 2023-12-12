@@ -54,16 +54,16 @@ DB = {id: Song(**song_data) for id, song_data in raw_songs.items()}
 # TODO Have better structured API endpoints
 
 @app.post("/v1/songs/")
-async def add_song(song: Song):
+async def add_song(song: Song) -> Song:
     new_id = max(DB.keys()) + 1
     # TODO Integrate proper database logic (SQLAlchemy, SQLite ??)
     DB[new_id] = song
     return song
 
 @app.get("/v1/songs/{song_id}")
-async def get_song(song_id: int):
+async def get_song(song_id: int) -> Song:
     return DB[song_id]
 
 @app.get("/v1/songs/")
-async def get_songs():
-    return raw_songs
+async def get_songs() -> dict[int, Song]:
+    return DB

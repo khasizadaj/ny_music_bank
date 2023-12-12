@@ -57,6 +57,7 @@ DB = {id: Song(**song_data) for id, song_data in raw_songs.items()}
 async def add_song(song: Song) -> Song:
     new_id = max(DB.keys()) + 1
     # TODO Integrate proper database logic (SQLAlchemy, SQLite ??)
+    # https://fastapi.tiangolo.com/tutorial/sql-databases/
     DB[new_id] = song
     return song
 

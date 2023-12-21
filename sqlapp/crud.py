@@ -4,15 +4,19 @@ from sqlapp import models, schemas
 
 
 def get_song_by_id(db: Session, song_id: int):
-    return db.query(models.Song).filter(models.Song.id==song_id).first()
+    return db.query(models.Song).filter(models.Song.id == song_id).first()
 
 
 def get_song_by_details(db: Session, artist: str, name: str, url: str):
-    return db.query(models.Song).filter(
-        models.Song.artist==artist,
-        models.Song.name==name,
-        models.Song.url==url
-    ).first()
+    return (
+        db.query(models.Song)
+        .filter(
+            models.Song.artist == artist,
+            models.Song.name == name,
+            models.Song.url == url,
+        )
+        .first()
+    )
 
 
 def get_songs(db: Session, skip: int = 0, limit: int = 100):

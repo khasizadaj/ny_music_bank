@@ -1,4 +1,3 @@
-```markdown
 # Project Setup Guide
 
 Welcome to the project setup guide! Follow these instructions to get your project up and running.

@@ -11,7 +11,7 @@ from sqlapp import crud, models, schemas
 
 from sqlapp.database import SessionLocal, engine
 
-BASE_URL = "https://ny_music_bank.api.javidkhasizada.xyz/"
+BASE_URL = "http://ny_music_bank.api.javidkhasizada.xyz/"
 
 load_dotenv()
 models.Base.metadata.create_all(bind=engine)

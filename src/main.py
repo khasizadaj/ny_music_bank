@@ -5,6 +5,7 @@ import os
 from fastapi import Depends, FastAPI, HTTPException, status
 from sqlalchemy.orm import Session
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
+from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 
 from sqlapp import crud, models, schemas
@@ -18,6 +19,20 @@ models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 security = HTTPBasic()
+
+origins = [
+    "https://happy_new_year.javidkhasizada.xyz",
+    "http://localhost",
+    "http://localhost:5173",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["GET", "POST"],
+    allow_headers=["*"],
+)
 
 
 # Dependency

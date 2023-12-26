@@ -29,3 +29,24 @@ def create_song(db: Session, song: schemas.SongCreate):
     db.commit()
     db.refresh(db_item)
     return db_item
+
+
+def update_song(db: Session, song_id: int, song: schemas.SongCreate):
+    db_item = get_song_by_id(db, song_id=song_id)
+    if db_item.artist != song.artist:
+        db_item.artist = song.artist
+    if db_item.name != song.name:
+        db_item.name = song.name
+    if db_item.url != song.url:
+        db_item.url = song.url
+    if db_item.platform != song.platform:
+        db_item.platform = song.platform
+    db.commit()
+    db.refresh(db_item)
+    return db_item
+
+
+def delete_song_by_id(db: Session, song_id: int):
+    song = db.query(models.Song).filter(models.Song.id == song_id).first()
+    db.delete(song)
+    db.commit()

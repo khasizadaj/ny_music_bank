@@ -3,6 +3,7 @@ import secrets
 import os
 
 from fastapi import Depends, FastAPI, HTTPException, status
+from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from fastapi.middleware.cors import CORSMiddleware
@@ -106,3 +107,30 @@ def get_songs(
         result.append(schemas.Song(**song.to_dict(), links=links))
 
     return result
+
+
+@app.put("/v1/songs/{song_id}")
+def update_song(
+    song_id: int,
+    song: schemas.SongCreate,
+    _: Annotated[HTTPBasicCredentials, Depends(data_can_be_accessed)],
+    db: Session = Depends(get_db),
+):
+    db_song = crud.update_song(db, song_id=song_id, song=song)
+    print("Song updated.", db_song)
+    links = schemas.Links(self=schemas.Link(href=f"{BASE_URL}v1/songs/{song_id}"))
+    return schemas.Song(**db_song.to_dict(), links=links)
+
+
+@app.delete("/v1/songs/{song_id}")
+def delete_song(
+    song_id: int,
+    _: Annotated[HTTPBasicCredentials, Depends(data_can_be_accessed)],
+    db: Session = Depends(get_db),
+):
+    db_song = crud.get_song_by_id(db, song_id=song_id)
+    if db_song is None:
+        raise HTTPException(status_code=400, detail="Song doesn't exist")
+
+    crud.delete_song_by_id(db=db, song_id=song_id)
+    return {"details": "Deleted song."}

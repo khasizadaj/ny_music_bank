@@ -55,6 +55,8 @@ Create a `.env` file in the root directory of the project. Add the following var
 ```txt
 USERNAME={your_username}
 PASSWORD={your_password}
+
+ORIGINS=["http://127.0.0.1"]
 ```
 
 Replace `your_username` and `your_password` with appropriate values.

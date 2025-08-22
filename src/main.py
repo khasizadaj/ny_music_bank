@@ -1,5 +1,6 @@
 from typing import Annotated
 import secrets
+import json
 import os
 
 from fastapi import Depends, FastAPI, HTTPException, status
@@ -21,11 +22,7 @@ models.Base.metadata.create_all(bind=engine)
 app = FastAPI()
 security = HTTPBasic()
 
-origins = [
-    "https://happy_new_year.javidkhasizada.xyz",
-    "http://localhost",
-    "http://localhost:5173",
-]
+origins = json.loads(os.getenv("ORIGINS", "[]"))
 
 app.add_middleware(
     CORSMiddleware,
